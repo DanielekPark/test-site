@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events Page</title>
+</head>
+<body>
+    <h1>Events Page</h1>
+    {{range .}}
+        <div>
+            <p>{{.EventName}}</p>
+            <p>{{.Day}}</p>
+            <p>{{.DayOfDate}}</p>
+            <p>{{.MonthYear}}</p>
+            <p>{{.Time}}</p>
+            <p>{{.Address}}</p>
+        </div>
+    {{end}}
+</body>
+<style>
+    div {
+        border: 3px solid;
+    }
+</style>
+</html>
