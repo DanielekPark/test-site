@@ -26,3 +26,71 @@ type EventsPageData struct {
 		} `json:"pagination"`
 	} `json:"meta"`
 }
+
+// About Page
+type TribalMembers struct {
+	Data []struct {
+		ID          int       `json:"id"`
+		DocumentID  string    `json:"documentId"`
+		Email       string    `json:"Email"`
+		Name        string    `json:"Name"`
+		Position    string    `json:"Position"`
+		CreatedAt   time.Time `json:"createdAt"`
+		UpdatedAt   time.Time `json:"updatedAt"`
+		PublishedAt time.Time `json:"publishedAt"`
+	} `json:"data"`
+	Meta struct {
+		Pagination struct {
+			Page      int `json:"page"`
+			PageSize  int `json:"pageSize"`
+			PageCount int `json:"pageCount"`
+			Total     int `json:"total"`
+		} `json:"pagination"`
+	} `json:"meta"`
+}
+
+// Membership Page
+type MembershipDocs struct {
+	Data []struct {
+		ID          int       `json:"id"`
+		DocumentID  string    `json:"documentId"`
+		STIPhotoID  string    `json:"STI_Photo_ID"`
+		UpdateForm  string    `json:"Update_Form"`
+		FeeSchedule string    `json:"Fee_Schedule"`
+		Enrollment  string    `json:"Enrollment"`
+		CreatedAt   time.Time `json:"createdAt"`
+		UpdatedAt   time.Time `json:"updatedAt"`
+		PublishedAt time.Time `json:"publishedAt"`
+	} `json:"data"`
+	Meta struct {
+		Pagination struct {
+			Page      int `json:"page"`
+			PageSize  int `json:"pageSize"`
+			PageCount int `json:"pageCount"`
+			Total     int `json:"total"`
+		} `json:"pagination"`
+	} `json:"meta"`
+}
+
+// Programs Page
+type ProgramDocs struct {
+	Data []struct {
+		ID          int       `json:"id"`
+		DocumentID  string    `json:"documentId"`
+		STIPhotoID  string    `json:"STI_Photo_ID"`
+		UpdateForm  string    `json:"Update_Form"`
+		FeeSchedule string    `json:"Fee_Schedule"`
+		Enrollment  string    `json:"Enrollment"`
+		CreatedAt   time.Time `json:"createdAt"`
+		UpdatedAt   time.Time `json:"updatedAt"`
+		PublishedAt time.Time `json:"publishedAt"`
+	} `json:"data"`
+	Meta struct {
+		Pagination struct {
+			Page      int `json:"page"`
+			PageSize  int `json:"pageSize"`
+			PageCount int `json:"pageCount"`
+			Total     int `json:"total"`
+		} `json:"pagination"`
+	} `json:"meta"`
+}
