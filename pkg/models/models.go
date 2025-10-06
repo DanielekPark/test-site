@@ -28,7 +28,7 @@ type EventsPageData struct {
 }
 
 // About Page
-type TribalMembers struct {
+type TribeMembers struct {
 	Data []struct {
 		ID          int       `json:"id"`
 		DocumentID  string    `json:"documentId"`
