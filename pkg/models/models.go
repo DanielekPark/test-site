@@ -72,7 +72,6 @@ type MembershipDocs struct {
 	} `json:"meta"`
 }
 
-// change
 // Programs Page
 type ProgramDocs struct {
 	Data []struct {
