@@ -72,18 +72,20 @@ type MembershipDocs struct {
 	} `json:"meta"`
 }
 
+// change
 // Programs Page
 type ProgramDocs struct {
 	Data []struct {
-		ID          int       `json:"id"`
-		DocumentID  string    `json:"documentId"`
-		STIPhotoID  string    `json:"STI_Photo_ID"`
-		UpdateForm  string    `json:"Update_Form"`
-		FeeSchedule string    `json:"Fee_Schedule"`
-		Enrollment  string    `json:"Enrollment"`
-		CreatedAt   time.Time `json:"createdAt"`
-		UpdatedAt   time.Time `json:"updatedAt"`
-		PublishedAt time.Time `json:"publishedAt"`
+		ID                  int       `json:"id"`
+		DocumentID          string    `json:"documentId"`
+		Application         string    `json:"Application"`
+		ParticipatingStores string    `json:"Participating_Stores"`
+		NonFoodItems        string    `json:"Non_Food_Items"`
+		IncomeLimit         string    `json:"Income_Limit"`
+		RequiredDocs        string    `json:"Required_Docs"`
+		CreatedAt           time.Time `json:"createdAt"`
+		UpdatedAt           time.Time `json:"updatedAt"`
+		PublishedAt         time.Time `json:"publishedAt"`
 	} `json:"data"`
 	Meta struct {
 		Pagination struct {
