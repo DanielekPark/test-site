@@ -3,12 +3,12 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"os"
-
 	"html/template"
 	"io"
 	"log"
 	"net/http"
+	"os"
+	"time"
 
 	"github/strapi-admin/pkg/models"
 
@@ -31,32 +31,38 @@ func checkPath(expectedPath string, w http.ResponseWriter, r *http.Request) erro
 
 func FetchEvents(url string, token string) models.EventsPageData {
 	godotenv.Load()
-	req, _ := http.NewRequest("GET", url, nil)
+	var result models.EventsPageData
 
+	client := &http.Client{Timeout: time.Second * 10}
+
+	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("Accept", "*/*")
 	req.Header.Add("Authorization", "Bearer "+token)
 
-	res, _ := http.DefaultClient.Do(req)
+	res, err := client.Do(req)
+	if err != nil {
+		defer func() {
+			if r := recover(); r != nil {
+				//Parse JSON file
+				jsonFile, err := os.ReadFile("static/error-messages/event-error-message.json")
+				if err != nil {
+					fmt.Println("Unable to get JSON file")
+				}
+				json.Unmarshal(jsonFile, &result)
+				fmt.Println(result.Data)
+			}
+		}()
+	}
 
 	defer res.Body.Close()
-	body, _ := io.ReadAll(res.Body)
-	//add catch code here
 
-	var result models.EventsPageData
-	if err := json.Unmarshal(body, &result); err != nil {
-		fmt.Println("Unable to marshal JSON")
-		//Parse JSON
-		jsonFile, err := os.Open("static/json/event-error-message.json")
-		if err != nil {
-			fmt.Println("Unable to parse json error message")
-		} else {
-			fmt.Println(jsonFile)
-		}
-		/*
-			write code to reassign result to display error message for user
-			create json file based on models file
-		*/
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println("Response error")
 	}
+
+	json.Unmarshal(body, &result)
+	fmt.Println(" line 65")
 	return result
 }
 
@@ -126,7 +132,6 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	if err := tmpl.Execute(w, nil); err != nil {
 		log.Fatal("Failed to parse template ", err)
 	}
-
 }
 
 func About(w http.ResponseWriter, r *http.Request) {
