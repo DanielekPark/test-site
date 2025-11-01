@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+
 	"time"
 
 	"github/strapi-admin/pkg/models"
@@ -31,7 +32,7 @@ func checkPath(expectedPath string, w http.ResponseWriter, r *http.Request) erro
 
 func FetchEvents(url string, token string) models.EventsPageData {
 	godotenv.Load()
-	var result models.EventsPageData
+	var strapiRes models.EventsPageData
 
 	client := &http.Client{Timeout: time.Second * 10}
 
@@ -43,27 +44,21 @@ func FetchEvents(url string, token string) models.EventsPageData {
 	if err != nil {
 		defer func() {
 			if r := recover(); r != nil {
-				//Parse JSON file
-				jsonFile, err := os.ReadFile("static/error-messages/event-error-message.json")
-				if err != nil {
-					fmt.Println("Unable to get JSON file")
-				}
-				json.Unmarshal(jsonFile, &result)
-				fmt.Println(result.Data)
+				fmt.Println("There was no response from Strapi")
 			}
 		}()
+	}
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println("Unable to read response")
+	} else {
+		json.Unmarshal(body, &strapiRes)
+		fmt.Println(strapiRes)
 	}
 
 	defer res.Body.Close()
 
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println("Response error")
-	}
-
-	json.Unmarshal(body, &result)
-	fmt.Println(" line 65")
-	return result
+	return strapiRes
 }
 
 func FetchTribeMembers(url string, token string) models.TribeMembers {
@@ -155,15 +150,57 @@ func Events(w http.ResponseWriter, r *http.Request) {
 	url := os.Getenv("EVENTS_ENDPOINT")
 	ParsedData := FetchEvents(url, token)
 
+	errorMessage := models.EventsErrorMessage{
+		Data: []struct {
+			Day,
+			DayOfDate,
+			MonthYear,
+			Time,
+			EventName,
+			Address string
+		}{
+			{
+				Day:       "",
+				DayOfDate: "",
+				MonthYear: "",
+				Time:      "",
+				EventName: "There was a problem please try again later",
+				Address:   "",
+			},
+		},
+	}
+
 	if err := checkPath("/events", w, r); err != nil {
 		log.Fatal(err)
 	}
+
 	tmpl, _ := template.ParseFiles("static/templates/events.html")
 
-	if err := tmpl.Execute(w, ParsedData); err != nil {
-		log.Fatal("Failed to parse template ", err)
+	if len(ParsedData.Data) < 1 {
+		if err := tmpl.Execute(w, errorMessage); err != nil {
+			log.Fatal("Failed to parse template 181 ", err)
+		}
 	}
+
+	if len(ParsedData.Data) > 0 {
+		if err := tmpl.Execute(w, ParsedData); err != nil {
+			log.Fatal("Failed to parse template ", err)
+		}
+	}
+
 }
 
 func Membership(w http.ResponseWriter, r *http.Request) {}
 func Programs(w http.ResponseWriter, r *http.Request)   {}
+
+/*
+have FetchEvents function return something than models.EventsPageData
+create a new model using these key value pairs
+		Day         string
+		DayOfDate   int
+		MonthYear   string
+		Time        string
+		EventName   string
+		Address     string
+for json error received loop and create a map?
+*/
