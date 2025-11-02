@@ -192,15 +192,3 @@ func Events(w http.ResponseWriter, r *http.Request) {
 
 func Membership(w http.ResponseWriter, r *http.Request) {}
 func Programs(w http.ResponseWriter, r *http.Request)   {}
-
-/*
-have FetchEvents function return something than models.EventsPageData
-create a new model using these key value pairs
-		Day         string
-		DayOfDate   int
-		MonthYear   string
-		Time        string
-		EventName   string
-		Address     string
-for json error received loop and create a map?
-*/
