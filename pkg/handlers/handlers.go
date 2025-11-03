@@ -150,42 +150,14 @@ func Events(w http.ResponseWriter, r *http.Request) {
 	url := os.Getenv("EVENTS_ENDPOINT")
 	ParsedData := FetchEvents(url, token)
 
-	errorMessage := models.EventsErrorMessage{
-		Data: []struct {
-			Day,
-			DayOfDate,
-			MonthYear,
-			Time,
-			EventName,
-			Address string
-		}{
-			{
-				Day:       "",
-				DayOfDate: "",
-				MonthYear: "",
-				Time:      "",
-				EventName: "There was a problem please try again later",
-				Address:   "",
-			},
-		},
-	}
-
 	if err := checkPath("/events", w, r); err != nil {
 		log.Fatal(err)
 	}
 
 	tmpl, _ := template.ParseFiles("static/templates/events.html")
 
-	if len(ParsedData.Data) < 1 {
-		if err := tmpl.Execute(w, errorMessage); err != nil {
-			log.Fatal("Failed to parse template 181 ", err)
-		}
-	}
-
-	if len(ParsedData.Data) > 0 {
-		if err := tmpl.Execute(w, ParsedData); err != nil {
-			log.Fatal("Failed to parse template ", err)
-		}
+	if err := tmpl.Execute(w, ParsedData); err != nil {
+		log.Fatal("Failed to parse template 181 ", err)
 	}
 
 }

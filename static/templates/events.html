@@ -7,15 +7,22 @@
 </head>
 <body>
     <h1>Events Page</h1>
-    {{range .Data}}
-        <div>
-            <p>{{.EventName}}</p>
-            <p>{{.Day}}</p>
-            <p>{{.DayOfDate}}</p>
-            <p>{{.MonthYear}}</p>
-            <p>{{.Time}}</p>
-            <p>{{.Address}}</p>
-        </div>
+
+    {{if gt (len .Data) 0 }}
+        {{range .Data}}
+            <div>
+                <p>{{.EventName}}</p>
+                <p>{{.Day}}</p>
+                <p>{{.DayOfDate}}</p>
+                <p>{{.MonthYear}}</p>
+                <p>{{.Time}}</p>
+                <p>{{.Address}}</p>
+            </div>
+        {{end}}
+    {{else}}
+            <div>
+                <h2>There was a problem please try again later</h2>
+            </div>
     {{end}}
 </body>
 <style>
