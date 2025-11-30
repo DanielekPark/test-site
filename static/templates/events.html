@@ -19,7 +19,8 @@
                 <p>{{.Address}}</p>
             </div>
         {{end}}
-    {{else}}
+    {{end}}
+    {{if lt (len .Data) 1}}
             <div>
                 <h2>There was a problem please try again later</h2>
             </div>
