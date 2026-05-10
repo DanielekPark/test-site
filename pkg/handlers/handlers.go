@@ -61,7 +61,7 @@ func FetchEvents(url string, token string) models.EventsPageData {
 	return strapiRes
 }
 
-func FetchTribeMembers(url string, token string) models.TribeMembers {
+func FetchTribeMembers(url string, token string) models.AboutPageData {
 	godotenv.Load()
 	req, _ := http.NewRequest("GET", url, nil)
 
@@ -72,7 +72,7 @@ func FetchTribeMembers(url string, token string) models.TribeMembers {
 	defer res.Body.Close()
 	body, _ := io.ReadAll(res.Body)
 
-	var result models.TribeMembers
+	var result models.AboutPageData
 	if err := json.Unmarshal(body, &result); err != nil {
 		fmt.Println("Unable to marshal JSON")
 	}

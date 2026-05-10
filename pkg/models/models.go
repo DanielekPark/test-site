@@ -12,11 +12,12 @@ type EventsPageData struct {
 		Address   string `json:"Address"`
 		Details   string `json:"Details"`
 		Link      string `json:"Link"`
+		Link_Type string `json:"Link_Type"`
 	} `json:"data"`
 }
 
 // About Page
-type TribeMembers struct {
+type AboutPageData struct {
 	Data []struct {
 		ID          int       `json:"id"`
 		DocumentID  string    `json:"documentId"`

@@ -17,7 +17,12 @@
                 <p>{{.MonthYear}}</p>
                 <p>{{.Time}}</p>
                 <p>{{.Address}}</p>
-                <a href="{{.Link}}" target="_blank">Link</a>
+                {{if eq .Link_Type "Register"}}
+                    <a href="{{.Link}}" target="_blank">Register</a>
+                {{end}}
+                {{if eq .Link_Type "Download"}}
+                    <a href="{{.Link}}" download>Download</a>
+                {{end}}
             </div>
         {{end}}
     {{end}}
